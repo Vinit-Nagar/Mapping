@@ -2,12 +2,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 app.use(express.json());
+require('dotenv').config();
+
 
 const pinRoute = require("./routes/pins");
 const userRoute = require("./routes/users");
 
 mongoose
-  .connect("mongodb://127.0.0.1:27017/pin")
+  .connect(process.env.DATABASE)
   .then(() => {
     console.log("MongoDB connected");
   })
@@ -16,6 +18,6 @@ mongoose
 app.use("/api/users", userRoute);
 app.use("/api/pins", pinRoute);
 
-app.listen(8800, () => {
+app.listen(process.env.PORT, () => {
   console.log("backend is running");
 });
